@@ -10,5 +10,11 @@
   shell: |
     cd /home/ubuntu
     tar xzvf artifact.tar.gz 
-    pm2 stop default
+
+- name: start app
+  become: yes
+  shell: |
+    npm i
+    npm run build
+    pm2 stop all
     pm2 start npm -- start
