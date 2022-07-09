@@ -184,7 +184,8 @@ jobs:
           name: Configure server
           command: |
             # add environment variables to server
-            echo ENVIRONMENT=production > ~/project/backend/.env
+            # echo ENVIRONMENT=production > ~/project/backend/.env
+            echo NODE_ENV=production > ~/project/backend/.env
             echo TYPEORM_HOST=$TYPEORM_HOST >> ~/project/backend/.env
             echo TYPEORM_CONNECTION=$TYPEORM_CONNECTION >> ~/project/backend/.env
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> ~/project/backend/.env
@@ -215,6 +216,8 @@ jobs:
             apk add --update --no-cache tar gzip nodejs npm aws-cli curl
       - restore_cache:
           keys: [backend-build]
+      - attach_workspace:
+          at: ~/
       - run:
           name: Run migrations
           command: |
@@ -230,6 +233,10 @@ jobs:
             else
               echo "DB migration failed, please verify setup! Probably the database already exists. Verify setup!"
             fi
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/backend
       - destroy_environment
   
   deploy-frontend:
