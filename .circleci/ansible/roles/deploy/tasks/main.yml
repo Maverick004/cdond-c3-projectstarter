@@ -30,6 +30,6 @@
   shell: |
     cd /home/ubuntu
     tar xzvf artifact.tar.gz 
-    npm install
+    npm install --legacy-peer-deps
     pm2 stop default
     pm2 start npm -- start

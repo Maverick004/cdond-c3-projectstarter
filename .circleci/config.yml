@@ -289,7 +289,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update nodejs npm --force
+            apk add --update nodejs npm
       - run:
           name: Install dependencies
           command: |
@@ -298,7 +298,7 @@ jobs:
           name: Deploy backend
           command: |
             cd backend
-            npm install --force
+            npm install --legacy-peer-deps
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
