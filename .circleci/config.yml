@@ -161,9 +161,9 @@ jobs:
             --output text) >> ~/project/.circleci/ansible/inventory.txt
             cat ~/project/.circleci/ansible/inventory.txt
       - persist_to_workspace:
-          root: ~/project
+          root: ~/
           paths:
-            - .circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
       - destroy_environment
 
   configure-infrastructure:
@@ -315,7 +315,7 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --output text)
-            export API_URL="http://${BACKEND_IP}:3030"
+            export API_URL="https://${BACKEND_IP}:3030"
             echo "${API_URL}"
             sleep 30
             if curl --connect-timeout 20 "${API_URL}/api/status" | grep "ok"
@@ -335,8 +335,8 @@ jobs:
             else
               return 1
             fi
-      #- destroy_environment
-      #- revert-migrations
+      - destroy_environment
+      - revert-migrations
 
   cloudfront-update:
     docker:
