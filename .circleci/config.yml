@@ -330,12 +330,11 @@ jobs:
             --output text)
             export API_URL="https://${BACKEND_IP}:3030"
             echo "${API_URL}"
-            sleep 30
-            if curl --connect-timeout 20 "${API_URL}/api/status" | grep "ok"
+            if curl "${API_URL}/api/status" | grep "ok"
             then
-                return 0
+              return 0
             else
-                return 1
+              return 1
             fi
       - run:
           name: Frontend smoke testing
@@ -348,8 +347,8 @@ jobs:
             else
               return 1
             fi
-      - destroy_environment
-      - revert-migrations
+      #- destroy_environment
+      #- revert-migrations
 
   cloudfront-update:
     docker:
